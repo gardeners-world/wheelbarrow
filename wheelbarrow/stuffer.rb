@@ -1,3 +1,4 @@
+require 'base64'
 require 'json'
 
 require 'redis' 
@@ -10,7 +11,7 @@ module Wheelbarrow
     service = Auth::authed_service
     data = service.get_spreadsheet_values sheet['spreadsheet']['id'], 
                                           sheet['spreadsheet']['sheet']
-    
+                                          require 'pry'; binding.pry
     redis = Redis.new host: config['redis']
-    redis.set 'plant-data', data.to_json
+    redis.set 'plant-data', (Base64.encode64 data.values.to_json)
 end

@@ -1,6 +1,6 @@
 FROM ruby:2.6-slim
 
-RUN apt-get update && apt-get install -y make
+RUN apt-get update && apt-get install -y make build-essential
 
 COPY wheelbarrow/gems.rb /opt/wheelbarrow/
 WORKDIR /opt/wheelbarrow

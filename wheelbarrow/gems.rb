@@ -1,5 +1,7 @@
 source 'https://rubygems.org' do
     gem 'google-api-client'
-    gem 'redis'
+    gem 'mongo'
+    gem 'rspec'
+
     gem 'pry'
 end
