@@ -1,5 +1,4 @@
 PROJECT = $(shell git remote -v | grep origin | grep fetch | sed "s:.*/\(.*\)\.git .*:\1:")
-PROJECT = wheelbarrow
 ID = pikesley/${PROJECT}
 
 all: build
