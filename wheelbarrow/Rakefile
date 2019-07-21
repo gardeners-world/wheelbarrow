@@ -1,0 +1,25 @@
+require 'rspec/core/rake_task'
+
+require_relative 'lib/auth'
+require_relative 'wheelbarrow'
+
+RSpec::Core::RakeTask.new
+task :default => :spec
+
+desc 'fetch and store the data from the Google sheet' 
+task :fetch do
+    sheet = YAML.load_file 'config/sheet.yaml'
+    service = Wheelbarrow::Auth::authed_service
+    
+    print 'Fetching data from spreadsheet...'
+    data = service.get_spreadsheet_values sheet['spreadsheet']['id'], 
+                                        sheet['spreadsheet']['sheet']
+    puts 'done'
+    
+    print 'Storing data...'
+    wrangler = Wheelbarrow::Wrangler.new data.values 
+    wrangler.store
+    puts 'done'
+
+    puts 'Data currently consists of %d records' % Wheelbarrow::MongoClient.instance.collection.count
+end

@@ -1,0 +1,2 @@
+mongo:
+  collection: :plants_dev

@@ -18,5 +18,15 @@ module Wheelbarrow
             id = "#{id}::#{self['variety']}" if self['variety'] != ''
             id
         end
+
+        def save
+            collection = MongoClient::instance.collection
+
+            collection.find_one_and_replace(
+                { _id: self.identifier }, 
+                { '$set': self }, 
+                options = { upsert: true }
+            ) 
+        end
     end
 end

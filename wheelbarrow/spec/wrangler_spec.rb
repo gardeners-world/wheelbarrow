@@ -81,24 +81,22 @@ module Wheelbarrow
         end
 
         context 'store in mongo' do
-            Mongo::Logger.logger.level = Logger::FATAL
-            client = Mongo::Client.new ['mongo']
-            collection = client[:plants_test]
-            collection.drop
+            let(:collection) { MongoClient::instance.collection }
+
+            before :each do 
+                wrangler.store
+            end
 
             it 'stores the data' do
-                wrangler.store
                 expect(collection.count).to eq 50
             end
 
             it 'stores the data idempotently' do 
                 wrangler.store
-                wrangler.store
                 expect(collection.count).to eq 50
             end
             
             it 'stores the correct data' do
-                wrangler.store
                 expect(collection.find(_id: 'juncus::spiralis').each.first).to eq ({
                     "_id"=>"juncus::spiralis", 
                     "common_name"=>["corkscrew rush"], 
@@ -109,6 +107,26 @@ module Wheelbarrow
                     "plant"=>"juncus", 
                     "plant_type"=>"", 
                     "variety"=>"spiralis", 
+                    "water"=>"", 
+                    "wikipedia_url"=>""
+                })
+            end
+
+            it 'updates the data' do
+                plant = wrangler.plant_by_id 'cactus'
+                plant['plant_type'] = 'succulent'
+                plant.save  
+                
+                expect(collection.find(_id: 'cactus').each.first).to eq ({
+                    "_id"=>"cactus", 
+                    "common_name"=>[], 
+                    "fertiliser"=>"", 
+                    "imgur_url"=>"", 
+                    "number"=>"", 
+                    "ph"=>"",
+                    "plant"=>"cactus", 
+                    "plant_type"=>"succulent", 
+                    "variety"=>"", 
                     "water"=>"", 
                     "wikipedia_url"=>""
                 })

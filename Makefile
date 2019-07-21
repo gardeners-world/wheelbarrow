@@ -11,5 +11,8 @@ push:
 	docker push ${ID}
 
 run:
-	docker-compose exec whe${PROJECT}elbarrow bash
+	docker-compose exec ${PROJECT} bash
+
+test:
+	docker-compose exec ${PROJECT} rspec
 

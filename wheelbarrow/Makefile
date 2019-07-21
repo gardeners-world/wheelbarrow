@@ -1,5 +1,5 @@
 test:
 	rspec 
 	
-stuff:
-	ruby stuffer.rb
+fetch:
+	rake fetch

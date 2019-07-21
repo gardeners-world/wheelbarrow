@@ -22,15 +22,10 @@ module Wheelbarrow
         end
 
         def store
-            client = Mongo::Client.new ['mongo']
-            collection = client[:plants_test]
+            collection = MongoClient::instance.collection
 
             self.each do |plant| 
-                collection.find_one_and_replace(
-                    { _id: plant.identifier }, 
-                    { '$set': plant }, 
-                    options= { upsert: true }
-                ) 
+                plant.save
             end
         end
     end

@@ -1,5 +1,5 @@
-require 'mongo'
-
+require_relative 'lib/config'
+require_relative 'lib/mongo_client'
 require_relative 'lib/plant'
 require_relative 'lib/string'
 require_relative 'lib/wrangler'
