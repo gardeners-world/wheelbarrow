@@ -1,0 +1,14 @@
+language: ruby
+
+env:
+  - RUBY_ENV: travis
+
+services:
+  - docker
+  - mongodb
+
+before_install:
+  - docker build -t pikesley/wheelbarrow .
+
+script:
+  - docker run -t pikesley/wheelbarrow rspec

@@ -9,7 +9,7 @@ module Wheelbarrow
         include Singleton
 
         def client 
-            @client ||= Mongo::Client.new ['mongo']
+            @client ||= Mongo::Client.new [Config.instance.config.mongo['host']]
         end
 
         def collection
