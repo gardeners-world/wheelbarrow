@@ -1,5 +1,8 @@
 language: ruby
 
+env:
+  - RUBY_ENV: travis
+
 services:
   - docker
   - mongodb
